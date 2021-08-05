@@ -1,0 +1,6 @@
+main: net.novauniverse.LabymodEconomyDisplay
+name: LabymodEconomyDisplay
+description: Shows your balance in labymod
+version: 1.0
+
+depend: [Vault, LabyApi]
