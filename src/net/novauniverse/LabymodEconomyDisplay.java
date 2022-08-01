@@ -52,7 +52,7 @@ public class LabymodEconomyDisplay extends JavaPlugin implements Listener {
 		};
 
 		Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "labymod3:main", lmcListener);
-		Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "abymod3:main");
+		Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "labymod3:main");
 
 		Bukkit.getPluginManager().registerEvents(this, this);
 
@@ -60,7 +60,7 @@ public class LabymodEconomyDisplay extends JavaPlugin implements Listener {
 
 			@Override
 			public void run() {
-				for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+				Bukkit.getServer().getOnlinePlayers().forEach(player -> {
 					if (labymodUsers.contains(player.getUniqueId())) {
 						double balance = economy.getBalance(player);
 						boolean sendBalance = false;
@@ -73,11 +73,10 @@ public class LabymodEconomyDisplay extends JavaPlugin implements Listener {
 
 						if (sendBalance) {
 							LabyAPI.getService().getEconomyDisplayTransmitter().transmit(player.getUniqueId(), EconomyBalanceType.CASH, true, (int) Math.floor(balance));
-							//System.out.println("transmitting balance to " + player.getUniqueId());
 							balanceCache.put(player.getUniqueId(), balance);
 						}
 					}
-				}
+				});
 			}
 		}.runTaskTimer(this, 20L, 20L);
 	}
